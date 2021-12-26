@@ -11,6 +11,7 @@ sudo apt install elixir
 mix local.hex
 elixir -v
 mix archive.install hex phx_new
+sudo apt install inotify-tools
 ```
 
 ### Install PostgreSQL
@@ -26,6 +27,11 @@ psql -h localhost postgres postgres
 ```shell
 # create new project
 mix phx.new elixir_2019_1
+
+# install dependencies
+mix deps.get
+
+
 ```
 
 
