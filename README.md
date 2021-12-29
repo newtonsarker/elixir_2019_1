@@ -23,6 +23,27 @@ sudo apt install postgresql-client
 psql -h localhost postgres postgres
 ```
 
+### Add BDD capabilities
+Update ```mix.exs``` to include the dependencies
+```elixir
+def project do
+   [
+      ...
+      preferred_cli_env: ["white_bread.run": :test],
+      ...
+   ]
+end
+
+defp deps do
+   [
+     ...
+     {:white_bread, "~> 4.5", only: [:test]}
+   ]
+end
+```
+Run ```mix white_bread.run``` it will create a folder ```features``` and necessary configuration files
+
+
 ### Scafolding
 ```shell
 # create new project
