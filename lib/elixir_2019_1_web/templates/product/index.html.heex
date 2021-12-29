@@ -1,0 +1,24 @@
+<h1>List of Products</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product name</th>
+      <th>Quantity</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for product <- @products do %>
+    <tr>
+      <td><%= product.product_name %></td>
+      <td><%= product.quantity %></td>
+      <td>
+        <span>rate</span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
