@@ -3,10 +3,11 @@ defmodule Elixir20191.Repo.Migrations.CreateProducts do
 
   def change do
     create table(:products) do
-      add :product_name, :string
-      add :quantity, :integer
+      add :product_name, :string, size: 50, null: false
+      add :quantity, :integer, null: false
 
       timestamps()
     end
+    create unique_index(:products, [:product_name])
   end
 end
