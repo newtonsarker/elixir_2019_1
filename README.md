@@ -1,4 +1,4 @@
-### Install Elixir
+## Install Elixir
 ```shell 
 wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && sudo dpkg -i erlang-solutions_2.0_all.deb
 sudo apt update
@@ -6,7 +6,7 @@ sudo apt install esl-erlang
 sudo apt install elixir
 ```
 
-### Install Phoenix
+## Install Phoenix
 ```shell
 mix local.hex
 elixir -v
@@ -14,7 +14,7 @@ mix archive.install hex phx_new
 sudo apt install inotify-tools
 ```
 
-### Install PostgreSQL
+## Install PostgreSQL
 ```shell
 sudo apt install postgresql postgresql-contrib
 sudo -u postgres psql postgres
@@ -23,7 +23,7 @@ sudo apt install postgresql-client
 psql -h localhost postgres postgres
 ```
 
-### Add BDD capabilities
+## Add BDD capabilities
 Update ```mix.exs``` to include the dependencies
 ```elixir
 def project do
@@ -43,8 +43,63 @@ end
 ```
 Run ```mix white_bread.run``` it will create a folder ```features``` and necessary configuration files
 
+## Migrations Cheatsheet
+```elixir
+# create migration
+mix ecto.gen.migration user
 
-### Scafolding
+# run migrations
+mix ecto.migrate
+mix ecto.rollback
+
+# populate with seeds
+mix run priv/repo/seeds.exs
+
+# create table
+create table(:users) do
+   add :user_name, :string, size: 50, default: "user name", null: false
+   add :profile, :text
+   add :age, :integer
+   add :weight, :float
+   add :height, :decimal, precision: 10, scale: 2
+   add :org_id, references(:orgs)
+   add :history, :json
+   timestamps()  # inserted_at and updated_at
+end
+create index(:users, [:org_id])
+
+# modify table
+alter table(:users) do
+   add :activity, :text
+   modify :history, :text
+   remove :age
+end
+rename table(:users), to: table(:system_user)
+rename table(:users), :user_name, to: :user_profile_name
+
+drop index(:users, [:org_id])
+drop table(:users)
+drop_if_exists table(:users)
+```
+
+## Phoenix Web
+```elixir
+# list all routes
+mix phx.routes
+
+# mvc works based on convention
+# 1. lib/takso_web/router.ex
+#    1. resources "/users", UserController
+# 2. lib/takso_web/controllers/user_controller.ex
+# 3. lib/takso_web/views/user_view.ex
+# 4. lib/takso_web/templates/user ( a package for the ui templates )
+
+# run bdd test
+mix white_bread.run
+```
+
+
+### Scaffolding
 ```shell
 # create new project
 mix phx.new elixir_2019_1
@@ -60,20 +115,17 @@ mix deps.compile
 MIX_ENV=test
 mix ecto.reset
 
-# create migration
-mix ecto.gen.migration user
 
-# run migrations
-mix ecto.migrate
-
-# populate with seeds
-mix run priv/repo/seeds.exs
 
 # create schema ( dto, manual is better )
 mix phx.gen.schema Accounts.User users name
 
 # command -> template -> module -> schema -> table -> fields
 mix phx.gen.html Products Product products product_name:string quantity:integer
+mix phx.gen.context Products Rating ratings product_id:references:products user_email:string score:integer
+mix phx.gen.json Accounts User users name:string
+mix phx.gen.live Accounts User users name:string
+
 
 # run mix 
 iex -S mix
@@ -92,38 +144,5 @@ mix phx.server
 ```
 
 
-## list all routes
-mix phx.routes
-
-## mvc works based on convention
-1. lib/takso_web/router.ex
-    1. resources "/users", UserController
-2. lib/takso_web/controllers/user_controller.ex
-3. lib/takso_web/views/user_view.ex
-4. lib/takso_web/templates/user ( a package for the ui templates )
 
 
-## run bdd test
-mix white_bread.run
-
-
-
-# Elixir20191
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
