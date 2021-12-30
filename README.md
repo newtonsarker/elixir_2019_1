@@ -115,8 +115,6 @@ mix deps.compile
 MIX_ENV=test
 mix ecto.reset
 
-
-
 # create schema ( dto, manual is better )
 mix phx.gen.schema Accounts.User users name
 
@@ -141,6 +139,8 @@ UserService.delete_user(3)
 # start dev server ( default: http://localhost:4000 )
 mix phx.server
 
+# testing
+MIX_ENV=dev app.tdd
 ```
 
 
