@@ -19,7 +19,6 @@ defmodule Elixir20191Web.Router do
 
     get "/", PageController, :index
     get "/products", ProductController, :index
-    get "/products/rate", ProductController, :index
   end
 
   # Other scopes may use custom stacks.

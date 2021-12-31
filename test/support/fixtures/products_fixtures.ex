@@ -31,6 +31,7 @@ defmodule Elixir20191.ProductsFixtures do
       })
       |> Elixir20191.Products.create_rating()
 
+      IO.inspect rating
     rating
   end
 end
