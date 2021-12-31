@@ -106,10 +106,10 @@ mix phx.new elixir_2019_1
 
 # install dependencies
 mix deps.get
+mix deps.compile
 
 # run phoenix server
 mix phx.server
-mix deps.compile
 
 # create database ( config/dev[test].exs ) aliases are in mix.exs
 MIX_ENV=test
@@ -118,8 +118,10 @@ mix ecto.reset
 # create schema ( dto, manual is better )
 mix phx.gen.schema Accounts.User users name
 
-# command -> template -> module -> schema -> table -> fields
-mix phx.gen.html Products Product products product_name:string quantity:integer
+# command -> module -> template -> schema -> table -> fields
+mix phx.gen.html ProductRating Products products product_name:string quantity:integer
+mix phx.gen.html ProductRating Ratings ratings product_id:references:products user_email:string score:integer
+
 mix phx.gen.context Products Rating ratings product_id:references:products user_email:string score:integer
 mix phx.gen.html Ratings Rating ratings --no-context --no-schema
 mix phx.gen.json Accounts User users name:string
