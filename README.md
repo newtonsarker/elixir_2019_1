@@ -31,59 +31,11 @@ mix phx.new elixir_2019_1
 # install dependencies
 mix deps.get
 
-# run phoenix server
-mix phx.server
-mix deps.compile
-
-# create database ( config/dev[test].exs ) aliases are in mix.exs
-MIX_ENV=test
-mix ecto.reset
-
-# create migration
-mix ecto.gen.migration user
-
-# run migrations
-mix ecto.migrate
-
-# populate with seeds
-mix run priv/repo/seeds.exs
-
-# create schema ( dto, manual is better )
-mix phx.gen.schema Accounts.User users name
-
-# command -> template -> module -> schema -> table -> fields
-mix phx.gen.html Products Product products product_name:string quantity:integer
-
-# run mix 
-iex -S mix
-recompile()
-
-# try services in console
-alias Takso.Dao.Service.UserService
-UserService.list_users()
-UserService.create_user(%{"name" => "bang bang", "username" => "tango", "password" => "bingo"})
-UserService.update_user(3, %{"name" => "bang bang x", "username" => "tangox", "password" => "bingox"})
-UserService.delete_user(3)
-
-# start dev server ( default: http://localhost:4000 )
-mix phx.server
 
 ```
 
 
-## list all routes
-mix phx.routes
 
-## mvc works based on convention
-1. lib/takso_web/router.ex
-    1. resources "/users", UserController
-2. lib/takso_web/controllers/user_controller.ex
-3. lib/takso_web/views/user_view.ex
-4. lib/takso_web/templates/user ( a package for the ui templates )
-
-
-## run bdd test
-mix white_bread.run
 
 
 
