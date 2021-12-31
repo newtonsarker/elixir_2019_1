@@ -18,4 +18,19 @@ defmodule Elixir20191.ProductRatingFixtures do
 
     products
   end
+
+  @doc """
+  Generate a ratings.
+  """
+  def ratings_fixture(attrs \\ %{}) do
+    {:ok, ratings} =
+      attrs
+      |> Enum.into(%{
+        score: 42,
+        user_email: "some user_email"
+      })
+      |> Elixir20191.ProductRating.create_ratings()
+
+    ratings
+  end
 end

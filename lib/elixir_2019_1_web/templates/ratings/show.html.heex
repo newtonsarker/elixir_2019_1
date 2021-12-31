@@ -1,0 +1,18 @@
+<h1>Show Ratings</h1>
+
+<ul>
+
+  <li>
+    <strong>User email:</strong>
+    <%= @ratings.user_email %>
+  </li>
+
+  <li>
+    <strong>Score:</strong>
+    <%= @ratings.score %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.ratings_path(@conn, :edit, @ratings) %></span> |
+<span><%= link "Back", to: Routes.ratings_path(@conn, :index) %></span>

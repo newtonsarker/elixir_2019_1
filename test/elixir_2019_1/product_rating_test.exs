@@ -58,4 +58,67 @@ defmodule Elixir20191.ProductRatingTest do
       assert %Ecto.Changeset{} = ProductRating.change_products(products)
     end
   end
+
+  describe "ratings" do
+    alias Elixir20191.ProductRating.Ratings
+
+    import Elixir20191.ProductRatingFixtures
+
+    @invalid_attrs %{score: nil, user_email: nil}
+
+    test "list_ratings/0 returns all ratings" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      assert ProductRating.list_ratings() == [ratings]
+    end
+
+    test "get_ratings!/1 returns the ratings with given id" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      assert ProductRating.get_ratings!(ratings.id) == ratings
+    end
+
+    test "create_ratings/1 with valid data creates a ratings" do
+      products = products_fixture()
+      valid_attrs = %{product_id: products.id, score: 42, user_email: "some user_email"}
+
+      assert {:ok, %Ratings{} = ratings} = ProductRating.create_ratings(valid_attrs)
+      assert ratings.score == 42
+      assert ratings.user_email == "some user_email"
+    end
+
+    test "create_ratings/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = ProductRating.create_ratings(@invalid_attrs)
+    end
+
+    test "update_ratings/2 with valid data updates the ratings" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      update_attrs = %{score: 43, user_email: "some updated user_email"}
+
+      assert {:ok, %Ratings{} = ratings} = ProductRating.update_ratings(ratings, update_attrs)
+      assert ratings.score == 43
+      assert ratings.user_email == "some updated user_email"
+    end
+
+    test "update_ratings/2 with invalid data returns error changeset" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      assert {:error, %Ecto.Changeset{}} = ProductRating.update_ratings(ratings, @invalid_attrs)
+      assert ratings == ProductRating.get_ratings!(ratings.id)
+    end
+
+    test "delete_ratings/1 deletes the ratings" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      assert {:ok, %Ratings{}} = ProductRating.delete_ratings(ratings)
+      assert_raise Ecto.NoResultsError, fn -> ProductRating.get_ratings!(ratings.id) end
+    end
+
+    test "change_ratings/1 returns a ratings changeset" do
+      products = products_fixture()
+      ratings = ratings_fixture(%{product_id: products.id})
+      assert %Ecto.Changeset{} = ProductRating.change_ratings(ratings)
+    end
+  end
 end
