@@ -9,6 +9,7 @@ defmodule Elixir20191.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      preferred_cli_env: ["white_bread.run": :test],
       aliases: aliases(),
       deps: deps()
     ]
@@ -48,7 +49,8 @@ defmodule Elixir20191.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:white_bread, "~> 4.5", only: [:test]}
     ]
   end
 
@@ -64,7 +66,8 @@ defmodule Elixir20191.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
+      "app.tdd": ["ecto.drop", "ecto.create", "ecto.migrate", "test"]
     ]
   end
 end
