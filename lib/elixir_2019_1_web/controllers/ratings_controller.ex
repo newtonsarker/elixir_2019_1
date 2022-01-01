@@ -1,6 +1,7 @@
 defmodule Elixir20191Web.RatingsController do
   use Elixir20191Web, :controller
 
+  alias Elixir20191Web.Router.Helpers, as: Routes
   alias Elixir20191.ProductRating
   alias Elixir20191.ProductRating.Ratings
 

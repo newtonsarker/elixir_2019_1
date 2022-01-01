@@ -37,7 +37,8 @@ end
 defp deps do
    [
      ...
-     {:white_bread, "~> 4.5", only: [:test]}
+     {:white_bread, "~> 4.5", only: [:test]},
+     {:hound, "~> 1.0"}
    ]
 end
 ```

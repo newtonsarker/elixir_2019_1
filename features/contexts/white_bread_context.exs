@@ -1,11 +1,17 @@
 defmodule WhiteBreadContext do
   use WhiteBread.Context
+  use Hound.Helpers
+
+  hound_session()
 
   given_ ~r/^the products are listed$/, fn state ->
+    navigate_to "/products"
     {:ok, state}
   end
 
   and_ ~r/^a product is selected to rate$/, fn state ->
+    find_element(:css, ".btn-rate:first-child") |> click
+    :timer.sleep(10000);
     {:ok, state}
   end
 

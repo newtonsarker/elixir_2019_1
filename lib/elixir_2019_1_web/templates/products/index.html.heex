@@ -20,7 +20,7 @@
       <td><%= Decimal.round(products.avg_rating, 2) %></td>
 
       <td>
-        <span><%= link "Rate", to: Routes.ratings_path(@conn, :new_rating, products) %></span>
+        <span><%= link "Rate", to: Routes.ratings_path(@conn, :new_rating, products), class: "btn-rate" %></span>
 
         <span><%= link "Show", to: Routes.products_path(@conn, :show, products) %></span>
         <span><%= link "Edit", to: Routes.products_path(@conn, :edit, products) %></span>
