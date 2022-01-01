@@ -66,6 +66,32 @@ defmodule Elixir20191.ProductRatingTest do
 
     @invalid_attrs %{score: nil, user_email: nil}
 
+    test "create_ratings should not allow score outside of range 0..5" do
+      products = products_fixture()
+      invalid_attrs = %{product_id: products.id, score: 6, user_email: "some user_email"}
+
+      assert {:error, %Ecto.Changeset{}} = ProductRating.create_ratings(invalid_attrs)
+    end
+
+    test "create_ratings should allow a user to rate a product only once" do
+      products = products_fixture()
+      valid_attrs1 = %{product_id: products.id, score: 3, user_email: "some user_email"}
+      valid_attrs2 = %{product_id: products.id, score: 3, user_email: "some user_email"}
+
+      assert {:ok, %Ratings{} = ratings} = ProductRating.create_ratings(valid_attrs1)
+      assert {:error, %Ecto.Changeset{}} = ProductRating.create_ratings(valid_attrs2)
+    end
+
+    test "system must calculate the average ratings" do
+      products = products_fixture()
+      valid_attrs1 = %{product_id: products.id, score: 2, user_email: "user_email_1"}
+      valid_attrs2 = %{product_id: products.id, score: 3, user_email: "user_email_2"}
+
+      assert {:ok, %Ratings{} = ratings1} = ProductRating.create_ratings(valid_attrs1)
+      assert {:ok, %Ratings{} = ratings2} = ProductRating.create_ratings(valid_attrs2)
+      assert Decimal.round(ProductRating.get_products!(products.id).avg_rating, 2) == Decimal.round(Decimal.from_float(2.5), 2)
+    end
+
     test "list_ratings/0 returns all ratings" do
       products = products_fixture()
       ratings = ratings_fixture(%{product_id: products.id})
@@ -80,24 +106,20 @@ defmodule Elixir20191.ProductRatingTest do
 
     test "create_ratings/1 with valid data creates a ratings" do
       products = products_fixture()
-      valid_attrs = %{product_id: products.id, score: 42, user_email: "some user_email"}
+      valid_attrs = %{product_id: products.id, score: 3, user_email: "some user_email"}
 
       assert {:ok, %Ratings{} = ratings} = ProductRating.create_ratings(valid_attrs)
-      assert ratings.score == 42
+      assert ratings.score == 3
       assert ratings.user_email == "some user_email"
-    end
-
-    test "create_ratings/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = ProductRating.create_ratings(@invalid_attrs)
     end
 
     test "update_ratings/2 with valid data updates the ratings" do
       products = products_fixture()
       ratings = ratings_fixture(%{product_id: products.id})
-      update_attrs = %{score: 43, user_email: "some updated user_email"}
+      update_attrs = %{score: 3, user_email: "some updated user_email"}
 
       assert {:ok, %Ratings{} = ratings} = ProductRating.update_ratings(ratings, update_attrs)
-      assert ratings.score == 43
+      assert ratings.score == 3
       assert ratings.user_email == "some updated user_email"
     end
 

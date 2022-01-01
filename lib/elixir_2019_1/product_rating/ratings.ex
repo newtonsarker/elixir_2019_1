@@ -15,5 +15,7 @@ defmodule Elixir20191.ProductRating.Ratings do
     ratings
     |> cast(attrs, [:product_id, :user_email, :score])
     |> validate_required([:product_id, :user_email, :score])
+    |> unique_constraint([:product_id, :user_email], message: "Product can be rated only once")
+    |> validate_inclusion(:score, 0..5)
   end
 end

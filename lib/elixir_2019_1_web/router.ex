@@ -19,6 +19,8 @@ defmodule Elixir20191Web.Router do
 
     get "/", PageController, :index
     resources "/products", ProductsController
+    get "/products/:product_id/rating", RatingsController, :new_rating
+    post "/products/rating", RatingsController, :create_rating
     resources "/ratings", RatingsController
   end
 

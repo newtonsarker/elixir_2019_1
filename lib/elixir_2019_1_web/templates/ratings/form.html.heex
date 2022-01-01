@@ -5,6 +5,8 @@
     </div>
   <% end %>
 
+  <%= hidden_input f, :product_id %>
+
   <%= label f, :user_email %>
   <%= text_input f, :user_email %>
   <%= error_tag f, :user_email %>

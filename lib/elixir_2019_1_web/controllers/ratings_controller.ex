@@ -4,6 +4,24 @@ defmodule Elixir20191Web.RatingsController do
   alias Elixir20191.ProductRating
   alias Elixir20191.ProductRating.Ratings
 
+  def new_rating(conn, %{"product_id" => product_id}) do
+    changeset = ProductRating.change_ratings(%Ratings{product_id: product_id})
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create_rating(conn, %{"ratings" => ratings_params}) do
+    products = ProductRating.list_products()
+    case ProductRating.create_ratings(ratings_params) do
+      {:ok, ratings} ->
+        conn
+        |> put_flash(:info, "Ratings created successfully.")
+        |> redirect(to: Routes.products_path(conn, :index, products))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
   def index(conn, _params) do
     ratings = ProductRating.list_ratings()
     render(conn, "index.html", ratings: ratings)

@@ -5,6 +5,8 @@
     <tr>
       <th>Product name</th>
       <th>Quantity</th>
+      <th># of Votes</th>
+      <th>Average Rate</th>
 
       <th></th>
     </tr>
@@ -14,8 +16,12 @@
     <tr>
       <td><%= products.product_name %></td>
       <td><%= products.quantity %></td>
+      <td><%= products.vote %></td>
+      <td><%= Decimal.round(products.avg_rating, 2) %></td>
 
       <td>
+        <span><%= link "Rate", to: Routes.ratings_path(@conn, :new_rating, products) %></span>
+
         <span><%= link "Show", to: Routes.products_path(@conn, :show, products) %></span>
         <span><%= link "Edit", to: Routes.products_path(@conn, :edit, products) %></span>
         <span><%= link "Delete", to: Routes.products_path(@conn, :delete, products), method: :delete, data: [confirm: "Are you sure?"] %></span>

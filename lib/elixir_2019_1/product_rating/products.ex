@@ -5,6 +5,8 @@ defmodule Elixir20191.ProductRating.Products do
   schema "products" do
     field :product_name, :string
     field :quantity, :integer
+    field :avg_rating, :decimal
+    field :vote, :integer
 
     timestamps()
   end
@@ -12,7 +14,8 @@ defmodule Elixir20191.ProductRating.Products do
   @doc false
   def changeset(products, attrs) do
     products
-    |> cast(attrs, [:product_name, :quantity])
+    |> cast(attrs, [:product_name, :quantity, :avg_rating, :vote])
     |> validate_required([:product_name, :quantity])
+    |> unique_constraint([:product_name])
   end
 end

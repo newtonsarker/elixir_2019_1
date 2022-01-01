@@ -4,7 +4,7 @@ defmodule Elixir20191.Repo.Migrations.CreateRatings do
   def change do
     create table(:ratings) do
       add :user_email, :string, null: false
-      add :score, :integer, null: false
+      add :score, :integer, null: false, default: 0
       add :product_id, references(:products, on_delete: :nothing)
 
       timestamps()

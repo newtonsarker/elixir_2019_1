@@ -18,7 +18,14 @@ defmodule Elixir20191.ProductRating do
 
   """
   def list_products do
-    Repo.all(Products)
+    query = from(p in Products,
+      select: p,
+      order_by: [desc: p.avg_rating, asc: p.product_name],
+    )
+    sorted_products = Repo.all(query)
+
+    # Repo.all(Products)
+    sorted_products
   end
 
   @doc """
@@ -146,9 +153,25 @@ defmodule Elixir20191.ProductRating do
 
   """
   def create_ratings(attrs \\ %{}) do
-    %Ratings{}
-    |> Ratings.changeset(attrs)
-    |> Repo.insert()
+    rating = Ratings.changeset(%Ratings{}, attrs)
+    updated_rating = Repo.insert(rating)
+
+    case updated_rating do
+      {:ok, urating} ->
+        product_id = urating.product_id
+        query = from(r in Ratings,
+          group_by: r.product_id,
+          having: r.product_id == ^product_id,
+          select: %{product_id: r.product_id, vote: count(r.product_id), avg_rating: avg(r.score)}
+        )
+        rating_summary = Repo.one(query)
+        product = get_products!(product_id)
+        update_products(product, rating_summary)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
+    end
+
+    updated_rating
   end
 
   @doc """

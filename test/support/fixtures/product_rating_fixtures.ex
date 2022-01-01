@@ -12,7 +12,9 @@ defmodule Elixir20191.ProductRatingFixtures do
       attrs
       |> Enum.into(%{
         product_name: "some product_name",
-        quantity: 42
+        quantity: 42,
+        avg_rating: 0,
+        vote: 0
       })
       |> Elixir20191.ProductRating.create_products()
 
@@ -26,7 +28,7 @@ defmodule Elixir20191.ProductRatingFixtures do
     {:ok, ratings} =
       attrs
       |> Enum.into(%{
-        score: 42,
+        score: 3,
         user_email: "some user_email"
       })
       |> Elixir20191.ProductRating.create_ratings()
