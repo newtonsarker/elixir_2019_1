@@ -67,7 +67,9 @@ defmodule Elixir20191.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"],
-      "app.tdd": ["ecto.drop", "ecto.create", "ecto.migrate", "test"]
+      "app.run": ["ecto.drop", "ecto.create", "ecto.migrate", "phx.server"],
+      "app.tdd": ["ecto.drop", "ecto.create", "ecto.migrate", "test"],
+      "app.bdd": ["ecto.reset", "white_bread.run"]
     ]
   end
 end

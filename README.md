@@ -95,7 +95,8 @@ mix phx.routes
 # 4. lib/takso_web/templates/user ( a package for the ui templates )
 
 # run bdd test
-mix white_bread.run
+MIX_ENV=test mix white_bread.run
+MIX_ENV=test mix app.bdd
 ```
 
 
