@@ -85,6 +85,9 @@ drop_if_exists table(:users)
 
 ## Phoenix Web
 ```elixir
+# create new project
+mix phx.new hello
+
 # list all routes
 mix phx.routes
 
